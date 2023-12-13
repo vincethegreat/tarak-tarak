@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to send motor control commands to the server
+            function sendCommand(command) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/' + command + '/',
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+
+            // Function to handle button hold event
+            function buttonHold(button, command) {
+                var holdTimer;
+                $(button).mousedown(function () {
+                    // Send the initial command
+                    sendCommand(command);
+
+                    // Start sending commands repeatedly while the button is held
+                    holdTimer = setInterval(function () {
+                        sendCommand(command);
+                    }, 500); // Adjust the interval as needed
+                }).mouseup(function () {
+                    // Stop sending commands when the button is released
+                    clearInterval(holdTimer);
+                    sendCommand('stop'); // You might need to create a '/stop/' route in Flask
+                }).mouseleave(function () {
+                    // Stop sending commands if the mouse leaves the button
+                    clearInterval(holdTimer);
+                    sendCommand('stop');
+                });
+            }
+
+            // Call the function for each button
+            buttonHold('#forwardBtn', 'forward');
+            buttonHold('#backBtn', 'back');
+            buttonHold('#leftBtn', 'left');
+            buttonHold('#rightBtn', 'right');
+        });
+    </script>
+    <style>
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100vh;
+}
+
+.Controller {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.ControlPanel,
+.WaterPlants {
+    border: 2px solid #000000;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.ControlPanel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    width: 200px; /* Adjust the width as needed */
+    margin-bottom: 20px;
+}
+
+.WaterPlants {
+    margin-bottom: 20px;
+}
+
+h4 {
+    margin-bottom: 10px;
+}
+
+.arrow-button {
+    font-size: 30px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+#leftBtn {
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+#forwardBtn {
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+
+#rightBtn {
+    grid-column-start: 3;
+    grid-row-start: 2;
+}
+
+#backBtn {
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+    </style>
+</head>
+
+<body>
+    <div class="Controller">
+        <div class="WaterPlants">
+            <form action="/water_plants/" method="post">
+                <button name="waterBtn" type="submit">Water Plants</button>
+            </form>
+        </div>
+
+        <div class="ControlPanel">
+            <button class="arrow-button" id="forwardBtn">&#9650;</button>
+            <button class="arrow-button" id="backBtn">&#9660;</button>
+            <button class="arrow-button" id="leftBtn">&#9664;</button>
+            <button class="arrow-button" id="rightBtn">&#9654;</button>
+            
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100vh;
+        }
+
+        .Controller {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .ControlPanel,
+        .WaterPlants {
+            border: 2px solid #000000;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .ControlPanel {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 300px; /* Adjust the width as needed */
+            margin-bottom: 20px;
+        }
+
+        .WaterPlants {
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            margin-bottom: 10px;
+        }
+
+        .arrow-button {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #forwardBtn {
+            border-width: 0 20px 30px 20px;
+            border-color: transparent transparent #007bff transparent;
+        }
+
+        #backBtn {
+            border-width: 30px 20px 0 20px;
+            border-color: #007bff transparent transparent transparent;
+            transform: rotate(180deg);
+        }
+
+        #leftBtn {
+            border-width: 20px 30px 20px 0;
+            border-color: transparent #007bff transparent transparent;
+            transform: rotate(90deg);
+        }
+
+        #rightBtn {
+            border-width: 20px 0 20px 30px;
+            border-color: transparent transparent transparent #007bff;
+            transform: rotate(-90deg);
+        }
